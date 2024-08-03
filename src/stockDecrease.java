@@ -1,5 +1,5 @@
 import java.sql.*;
-import PROJECT.Connesionprevider;
+import PROJECT.ConnectionProvider;
 import net.proteanit.sql.DbUtils;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -127,7 +127,7 @@ public class stockDecrease extends javax.swing.JFrame {
 
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
              try{
-      Connection con = Connesionprevider.getCon();
+      Connection con = ConnectionProvider.getCon();
         Statement st =con.createStatement();
         ResultSet rs = st.executeQuery("select *from stock ");
          jTable1.setAutoResizeMode(jTable1.AUTO_RESIZE_OFF);
@@ -152,7 +152,7 @@ public class stockDecrease extends javax.swing.JFrame {
         String unit=jTextField1.getText();
         int unit1=Integer.parseInt(unit);
         try{
-        Connection con = Connesionprevider.getCon();
+        Connection con = ConnectionProvider.getCon();
         Statement st =con.createStatement();
         st.executeUpdate("update stock set  unit= unit-'"+unit1+"' where bloodGroup ='"+bloodGroup+"' ");
         JOptionPane.showMessageDialog(null,"seccessfully updated");

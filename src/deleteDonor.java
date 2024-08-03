@@ -1,5 +1,5 @@
 import java.sql.*;
-import PROJECT.Connesionprevider;
+import PROJECT.ConnectionProvider;
 import javax.swing.JOptionPane;
 
 /*
@@ -215,7 +215,7 @@ public class deleteDonor extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
           String donorId=jTextField1.getText();
         try{
-        Connection con = Connesionprevider.getCon();
+        Connection con = ConnectionProvider.getCon();
         Statement st =con.createStatement();
         ResultSet rs = st.executeQuery("select *from donor where donorId ='"+donorId+"'");
         if(rs.next()){
@@ -244,7 +244,7 @@ public class deleteDonor extends javax.swing.JFrame {
         // TODO add your handling code here:
             String donorId=jTextField1.getText();
         try{
-        Connection con = Connesionprevider.getCon();
+        Connection con = ConnectionProvider.getCon();
         Statement st =con.createStatement();
          st.executeUpdate("delete from donor where donorId ='"+donorId+"'");
            JOptionPane.showMessageDialog(null," successfully deleted");

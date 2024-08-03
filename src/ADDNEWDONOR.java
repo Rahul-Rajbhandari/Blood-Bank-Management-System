@@ -1,6 +1,6 @@
 
 import java.sql.*;
-import PROJECT.Connesionprevider;
+import PROJECT.ConnectionProvider;
 import javax.swing.JOptionPane;
 
 /*
@@ -55,7 +55,7 @@ public class ADDNEWDONOR extends javax.swing.JFrame {
         jTextArea1 = new javax.swing.JTextArea();
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
-        jButton1 = new javax.swing.JButton();
+        saveButton = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jLabel14 = new javax.swing.JLabel();
@@ -161,15 +161,15 @@ public class ADDNEWDONOR extends javax.swing.JFrame {
         getContentPane().add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 733, 10));
         getContentPane().add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 398, 733, 10));
 
-        jButton1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/save.png"))); // NOI18N
-        jButton1.setText("Save");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        saveButton.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        saveButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/save.png"))); // NOI18N
+        saveButton.setText("Save");
+        saveButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                saveButtonActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(121, 426, -1, -1));
+        getContentPane().add(saveButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(121, 426, -1, -1));
 
         jButton2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Update details.png"))); // NOI18N
@@ -199,7 +199,7 @@ public class ADDNEWDONOR extends javax.swing.JFrame {
 
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
         try {
-            Connection con = Connesionprevider.getCon();
+            Connection con = ConnectionProvider.getCon();
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery("select max(donorId) from donor");
             if (rs.next()) {
@@ -230,38 +230,51 @@ public class ADDNEWDONOR extends javax.swing.JFrame {
         new ADDNEWDONOR().setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
         String donorId = jLabel3.getText();
         String name = jTextField1.getText();
         String fatherName = jTextField2.getText();
         String motherName = jTextField3.getText();
-        String MobileNo = jTextField4.getText();
+        String mobileNo = jTextField4.getText();
         String gender = (String) jComboBox1.getSelectedItem();
         String email = jTextField5.getText();
         String bloodGroup = (String) jComboBox2.getSelectedItem();
         String city = jTextField6.getText();
         String address = jTextArea1.getText();
-        
-        
-    if (donorId.isEmpty() || name.isEmpty() || fatherName.isEmpty() || motherName.isEmpty() ||
-        MobileNo.isEmpty() || gender.isEmpty() || email.isEmpty() || bloodGroup.isEmpty() ||
+
+     if (!isValidName(name)) {
+            JOptionPane.showMessageDialog(null, "Please enter a valid full name");
+            return;
+        }
+
+        if (!isValidName(fatherName)) {
+            JOptionPane.showMessageDialog(null, "Please enter a valid father's name ");
+            return;
+        }
+
+        if (!isValidName(motherName)) {
+            JOptionPane.showMessageDialog(null, "Please enter a valid mother's name");
+            return;
+        }
+
+        if (!email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$")) {
+        JOptionPane.showMessageDialog(null, "Please enter a valid email address.");
+        return;
+        }
+           if (!mobileNo.matches("\\d{10}")) {
+        JOptionPane.showMessageDialog(null, "Please enter a valid 10-digit mobile number.");
+        return;
+        }
+           
+        if (donorId.isEmpty() || name.isEmpty() || fatherName.isEmpty() || motherName.isEmpty() ||
+        mobileNo.isEmpty() || gender.isEmpty() || email.isEmpty() || bloodGroup.isEmpty() ||
         city.isEmpty() || address.isEmpty()) {
         JOptionPane.showMessageDialog(null, "Please fill in all fields.");
         return;
     }
-
-    if (!MobileNo.matches("\\d{10}")) {
-        JOptionPane.showMessageDialog(null, "Please enter a valid 10-digit mobile number.");
-        return;
-    }
-
-    if (!email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$")) {
-        JOptionPane.showMessageDialog(null, "Please enter a valid email address.");
-        return;
-    }
-
+           
         try {
-            Connection con = Connesionprevider.getCon();
+            Connection con = ConnectionProvider.getCon();
             String sql = "Insert into donor (donorId,name,fatherName,motherName,gender, MobileNo,email,bloodGroup,city,address) values(?,?,?,?,?,?,?,?,?,?)";
 //            String sql = "INSERT INTO donor (donorId, name, fatherName, motherName, MobileNo, gender, email, bloodGroup, city, address) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
@@ -272,7 +285,7 @@ public class ADDNEWDONOR extends javax.swing.JFrame {
             ps.setString(3, fatherName);
             ps.setString(4, motherName);
             ps.setString(5, gender);
-            ps.setString(6, MobileNo);
+            ps.setString(6, mobileNo);
 //            ps.setString(7, gender);
             ps.setString(7, email);
             ps.setString(8, bloodGroup);
@@ -291,8 +304,26 @@ public class ADDNEWDONOR extends javax.swing.JFrame {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_saveButtonActionPerformed
 
+        public boolean isValidName(String name) {
+    // Split the name into parts by spaces
+    String[] parts = name.trim().split("\\s+");
+    
+    // Ensure the name contains 2 or 3 parts
+    if (parts.length < 2 || parts.length > 5) {
+        return false;
+    }
+    
+    // Check each part for validity
+    for (String part : parts) {
+        if (part.isEmpty() || !part.matches("[A-Z][a-z]*")) {
+            return false;
+        }
+    }
+    
+    return true;
+}
     /**
      * @param args the command line arguments
      */
@@ -329,7 +360,6 @@ public class ADDNEWDONOR extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JComboBox<String> jComboBox1;
@@ -358,5 +388,6 @@ public class ADDNEWDONOR extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
+    private javax.swing.JButton saveButton;
     // End of variables declaration//GEN-END:variables
 }

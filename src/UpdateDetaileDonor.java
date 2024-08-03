@@ -1,5 +1,5 @@
 import java.sql.*;
-import PROJECT.Connesionprevider;
+import PROJECT.ConnectionProvider;
 import javax.swing.JOptionPane;
 
 
@@ -36,7 +36,7 @@ public class UpdateDetaileDonor extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JSeparator();
         jLabel2 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        searchButton = new javax.swing.JButton();
         jSeparator2 = new javax.swing.JSeparator();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -58,7 +58,7 @@ public class UpdateDetaileDonor extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
         jSeparator3 = new javax.swing.JSeparator();
-        jButton2 = new javax.swing.JButton();
+        updateButton = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jLabel12 = new javax.swing.JLabel();
@@ -79,15 +79,15 @@ public class UpdateDetaileDonor extends javax.swing.JFrame {
         jTextField1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         getContentPane().add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(253, 97, 84, -1));
 
-        jButton1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/search1.png"))); // NOI18N
-        jButton1.setText("Search");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        searchButton.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        searchButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/search1.png"))); // NOI18N
+        searchButton.setText("Search");
+        searchButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                searchButtonActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(394, 94, -1, -1));
+        getContentPane().add(searchButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(394, 94, -1, -1));
         getContentPane().add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 134, 646, 10));
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -162,15 +162,15 @@ public class UpdateDetaileDonor extends javax.swing.JFrame {
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(443, 315, 188, -1));
         getContentPane().add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 414, 646, 10));
 
-        jButton2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/save.png"))); // NOI18N
-        jButton2.setText("Update");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        updateButton.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        updateButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/save.png"))); // NOI18N
+        updateButton.setText("Update");
+        updateButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                updateButtonActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 440, -1, -1));
+        getContentPane().add(updateButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 440, -1, -1));
 
         jButton3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Update details.png"))); // NOI18N
@@ -213,11 +213,11 @@ public class UpdateDetaileDonor extends javax.swing.JFrame {
       new UpdateDetaileDonor().setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
        
         String donorId=jTextField1.getText();
         try{
-        Connection con = Connesionprevider.getCon();
+        Connection con = ConnectionProvider.getCon();
         Statement st =con.createStatement();
         ResultSet rs = st.executeQuery("select *from donor where donorId ='"+donorId+"'");
         if(rs.next()){
@@ -233,16 +233,16 @@ public class UpdateDetaileDonor extends javax.swing.JFrame {
          jTextField1.setEditable(false);
         }
         else
-              JOptionPane.showMessageDialog(null," donorId does not existe");
+              JOptionPane.showMessageDialog(null," Donor Id does not exist");
         
         
         }
        
        
        catch(Exception e){}
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_searchButtonActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
         String donorId = jTextField1.getText();
     String name = jTextField2.getText();
     String fatherName = jTextField3.getText();
@@ -254,11 +254,42 @@ public class UpdateDetaileDonor extends javax.swing.JFrame {
     String city = jTextField9.getText();
     String address = jTextArea1.getText();
     
+     if (!isValidName(name)) {
+            JOptionPane.showMessageDialog(null, "Please enter a valid full name");
+            return;
+        }
+
+        if (!isValidName(fatherName)) {
+            JOptionPane.showMessageDialog(null, "Please enter a valid father's name ");
+            return;
+        }
+
+        if (!isValidName(motherName)) {
+            JOptionPane.showMessageDialog(null, "Please enter a valid mother's name");
+            return;
+        }
+
+        if (!email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$")) {
+        JOptionPane.showMessageDialog(null, "Please enter a valid email address.");
+        return;
+        }
+           if (!mobileNo.matches("\\d{10}")) {
+        JOptionPane.showMessageDialog(null, "Please enter a valid 10-digit mobile number.");
+        return;
+        }
+           
+        if (donorId.isEmpty() || name.isEmpty() || fatherName.isEmpty() || motherName.isEmpty() ||
+        mobileNo.isEmpty() || gender.isEmpty() || email.isEmpty() || bloodGroup.isEmpty() ||
+        city.isEmpty() || address.isEmpty()) {
+        JOptionPane.showMessageDialog(null, "Please fill in all fields.");
+        return;
+    }
+    
     // SQL query using placeholders
     String updateQuery = "UPDATE donor SET name = ?, fatherName = ?, motherName = ?, MobileNo = ?, gender = ?, email = ?, bloodGroup = ?, city = ?, address = ? WHERE donorId = ?";
 
     try {
-        Connection con = Connesionprevider.getCon();
+        Connection con = ConnectionProvider.getCon();
         PreparedStatement pst = con.prepareStatement(updateQuery);
         
         // Set values to the placeholders
@@ -287,8 +318,26 @@ public class UpdateDetaileDonor extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(null, "Connection error: " + e.getMessage());
         e.printStackTrace();
     }
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_updateButtonActionPerformed
 
+        public boolean isValidName(String name) {
+    // Split the name into parts by spaces
+    String[] parts = name.trim().split("\\s+");
+    
+    // Ensure the name contains 2 or 3 parts
+    if (parts.length < 2 || parts.length > 5) {
+        return false;
+    }
+    
+    // Check each part for validity
+    for (String part : parts) {
+        if (part.isEmpty() || !part.matches("[A-Z][a-z]*")) {
+            return false;
+        }
+    }
+    
+    return true;
+}
     /**
      * @param args the command line arguments
      */
@@ -325,8 +374,6 @@ public class UpdateDetaileDonor extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
@@ -355,5 +402,7 @@ public class UpdateDetaileDonor extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField jTextField8;
     private javax.swing.JTextField jTextField9;
+    private javax.swing.JButton searchButton;
+    private javax.swing.JButton updateButton;
     // End of variables declaration//GEN-END:variables
 }

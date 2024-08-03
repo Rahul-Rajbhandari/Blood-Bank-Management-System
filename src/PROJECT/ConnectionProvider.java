@@ -10,7 +10,7 @@ import java.sql.*;
  *
  * @author pc
  */
-public class Connesionprevider {
+public class ConnectionProvider {
     public static Connection getCon(){
    
     try {

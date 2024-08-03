@@ -1,5 +1,5 @@
 import java.sql.*;
-import PROJECT.Connesionprevider;
+import PROJECT.ConnectionProvider;
 import net.proteanit.sql.DbUtils;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -112,7 +112,7 @@ public class searchBloodDonorLocation extends javax.swing.JFrame {
         // TODO add your handling code here:
         String Location =jTextField1.getText();
         try{
-          Connection con = Connesionprevider.getCon();
+          Connection con = ConnectionProvider.getCon();
         Statement st =con.createStatement();
         ResultSet rs = st.executeQuery("select *from donor where city like '%"+Location+"%' or address like '%"+Location+"%' ");
          jTable1.setAutoResizeMode(jTable1.AUTO_RESIZE_OFF);
