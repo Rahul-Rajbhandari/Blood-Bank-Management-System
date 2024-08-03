@@ -98,11 +98,11 @@ public class Login extends javax.swing.JFrame {
        }
        
        else
-       JOptionPane.showMessageDialog(null, "incorrect username or password");
+       JOptionPane.showMessageDialog(null, "Incorrect username or password");
     }//GEN-LAST:event_loginButtonActionPerformed
 
     private void closeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeButtonActionPerformed
-         int a = JOptionPane.showConfirmDialog(null, "do you really close application","select",JOptionPane.YES_NO_OPTION);
+         int a = JOptionPane.showConfirmDialog(null, "Do you really want to close application","select",JOptionPane.YES_NO_OPTION);
         if(a==0){
         System.exit(0);
         

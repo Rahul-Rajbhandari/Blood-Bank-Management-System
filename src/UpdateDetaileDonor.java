@@ -68,16 +68,16 @@ public class UpdateDetaileDonor extends javax.swing.JFrame {
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Algerian", 1, 36)); // NOI18N
-        jLabel1.setText("Update Donor Dtailes");
+        jLabel1.setText("Update Donor details");
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 20, -1, -1));
         getContentPane().add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 73, 646, 10));
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel2.setText("Donor ID");
+        jLabel2.setText("Donor Name");
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(132, 100, -1, -1));
 
         jTextField1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        getContentPane().add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(253, 97, 84, -1));
+        getContentPane().add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(243, 97, 120, -1));
 
         searchButton.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         searchButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/search1.png"))); // NOI18N
@@ -107,7 +107,7 @@ public class UpdateDetaileDonor extends javax.swing.JFrame {
         getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 307, -1, -1));
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel7.setText("gender");
+        jLabel7.setText("Gender");
         getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 356, -1, -1));
 
         jTextField2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -143,7 +143,7 @@ public class UpdateDetaileDonor extends javax.swing.JFrame {
         getContentPane().add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(338, 263, -1, -1));
 
         jLabel11.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel11.setText("adress");
+        jLabel11.setText("Address");
         getContentPane().add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(338, 304, -1, -1));
 
         jTextField7.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -215,11 +215,12 @@ public class UpdateDetaileDonor extends javax.swing.JFrame {
 
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
        
-        String donorId=jTextField1.getText();
+        String donorName=jTextField1.getText();
         try{
         Connection con = ConnectionProvider.getCon();
         Statement st =con.createStatement();
-        ResultSet rs = st.executeQuery("select *from donor where donorId ='"+donorId+"'");
+//        ResultSet rs = st.executeQuery("select *from donor where donorId ='"+donorId+"'");
+        ResultSet rs = st.executeQuery("select *from donor where name like '%"+donorName+"%'");
         if(rs.next()){
         jTextField2.setText(rs.getString(2));
         jTextField3.setText(rs.getString(3));
@@ -233,7 +234,7 @@ public class UpdateDetaileDonor extends javax.swing.JFrame {
          jTextField1.setEditable(false);
         }
         else
-              JOptionPane.showMessageDialog(null," Donor Id does not exist");
+              JOptionPane.showMessageDialog(null," Donor Name does not exist");
         
         
         }

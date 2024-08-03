@@ -155,7 +155,7 @@ public class stockIncrease extends javax.swing.JFrame {
         Connection con = ConnectionProvider.getCon();
         Statement st =con.createStatement();
         st.executeUpdate("update stock set  unit= unit+'"+unit1+"' where bloodGroup ='"+bloodGroup+"' ");
-        JOptionPane.showMessageDialog(null,"seccessfully updated");
+        JOptionPane.showMessageDialog(null,"Successfully updated");
             setVisible(false);
             new stockIncrease().setVisible(true);
         

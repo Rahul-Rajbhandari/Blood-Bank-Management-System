@@ -1,3 +1,4 @@
+
 import java.sql.*;
 import PROJECT.ConnectionProvider;
 import net.proteanit.sql.DbUtils;
@@ -9,7 +10,6 @@ import javax.swing.JTable;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author pc
@@ -38,7 +38,7 @@ public class stockDecrease extends javax.swing.JFrame {
         jComboBox1 = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        updateButton = new javax.swing.JButton();
         jSeparator2 = new javax.swing.JSeparator();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -82,15 +82,15 @@ public class stockDecrease extends javax.swing.JFrame {
         jTextField1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         getContentPane().add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(382, 84, 116, -1));
 
-        jButton1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/save.png"))); // NOI18N
-        jButton1.setText("Update");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        updateButton.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        updateButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/save.png"))); // NOI18N
+        updateButton.setText("Update");
+        updateButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                updateButtonActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(545, 81, -1, -1));
+        getContentPane().add(updateButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(545, 81, -1, -1));
         getContentPane().add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 121, 680, 10));
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -126,16 +126,15 @@ public class stockDecrease extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
-             try{
-      Connection con = ConnectionProvider.getCon();
-        Statement st =con.createStatement();
-        ResultSet rs = st.executeQuery("select *from stock ");
-         jTable1.setAutoResizeMode(jTable1.AUTO_RESIZE_OFF);
-        jTable1.setModel(DbUtils.resultSetToTableModel(rs));
-        
-        }
-        catch(Exception e){
-             JOptionPane.showMessageDialog(null,e);
+        try {
+            Connection con = ConnectionProvider.getCon();
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery("select *from stock ");
+            jTable1.setAutoResizeMode(jTable1.AUTO_RESIZE_OFF);
+            jTable1.setModel(DbUtils.resultSetToTableModel(rs));
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
         }
     }//GEN-LAST:event_formComponentShown
 
@@ -144,26 +143,37 @@ public class stockDecrease extends javax.swing.JFrame {
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-       setVisible(false);
+        setVisible(false);
     }//GEN-LAST:event_jButton3ActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-               String bloodGroup=(String)jComboBox1.getSelectedItem();
-        String unit=jTextField1.getText();
-        int unit1=Integer.parseInt(unit);
-        try{
-        Connection con = ConnectionProvider.getCon();
-        Statement st =con.createStatement();
-        st.executeUpdate("update stock set  unit= unit-'"+unit1+"' where bloodGroup ='"+bloodGroup+"' ");
-        JOptionPane.showMessageDialog(null,"seccessfully updated");
-            setVisible(false);
-            new stockDecrease().setVisible(true);
-        
+    private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
+        String bloodGroup = (String) jComboBox1.getSelectedItem();
+        String unit = jTextField1.getText();
+        int unit1 = Integer.parseInt(unit);
+        try {
+            Connection con = ConnectionProvider.getCon();
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery("select unit from stock where bloodGroup ='" + bloodGroup + "' ");
+
+            if (rs.next()) {
+                int currentUnit = rs.getInt("unit");
+                if (currentUnit >= unit1) {
+                    st.executeUpdate("update stock set  unit= unit-'" + unit1 + "' where bloodGroup ='" + bloodGroup + "' ");
+                    JOptionPane.showMessageDialog(null, "Successfully updated");
+                    setVisible(false);
+                    new stockDecrease().setVisible(true);
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, "Not enough stock available");
+                }
+            } else {
+            JOptionPane.showMessageDialog(null, "Blood group not found");
         }
-          catch( Exception e){
-        JOptionPane.showMessageDialog(null,e);
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_updateButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -201,7 +211,6 @@ public class stockDecrease extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton3;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
@@ -214,5 +223,6 @@ public class stockDecrease extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JButton updateButton;
     // End of variables declaration//GEN-END:variables
 }
