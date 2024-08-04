@@ -34,7 +34,8 @@ public class UpdateDetaileDonor extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
-        jLabel2 = new javax.swing.JLabel();
+        donorID = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         searchButton = new javax.swing.JButton();
         jSeparator2 = new javax.swing.JSeparator();
@@ -52,6 +53,7 @@ public class UpdateDetaileDonor extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
+        donorIDField = new javax.swing.JLabel();
         jTextField7 = new javax.swing.JTextField();
         jTextField8 = new javax.swing.JTextField();
         jTextField9 = new javax.swing.JTextField();
@@ -62,6 +64,8 @@ public class UpdateDetaileDonor extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jLabel12 = new javax.swing.JLabel();
+        donorIDField1 = new javax.swing.JTextField();
+        jLabel13 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocation(new java.awt.Point(250, 130));
@@ -72,9 +76,13 @@ public class UpdateDetaileDonor extends javax.swing.JFrame {
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 20, -1, -1));
         getContentPane().add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 73, 646, 10));
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel2.setText("Donor Name");
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(132, 100, -1, -1));
+        donorID.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        donorID.setText("Donor Id");
+        getContentPane().add(donorID, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 140, -1, -1));
+
+        jLabel14.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel14.setText("Donor Name");
+        getContentPane().add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(132, 100, -1, -1));
 
         jTextField1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         getContentPane().add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(243, 97, 120, -1));
@@ -146,6 +154,9 @@ public class UpdateDetaileDonor extends javax.swing.JFrame {
         jLabel11.setText("Address");
         getContentPane().add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(338, 304, -1, -1));
 
+        donorIDField.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        getContentPane().add(donorIDField, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 140, 140, -1));
+
         jTextField7.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         getContentPane().add(jTextField7, new org.netbeans.lib.awtextra.AbsoluteConstraints(443, 178, 188, -1));
 
@@ -197,6 +208,13 @@ public class UpdateDetaileDonor extends javax.swing.JFrame {
         jLabel12.setOpaque(true);
         getContentPane().add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 690, -1));
 
+        donorIDField1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        getContentPane().add(donorIDField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, 160, -1));
+
+        jLabel13.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel13.setText("Donor Name");
+        getContentPane().add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(132, 100, -1, -1));
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -222,6 +240,8 @@ public class UpdateDetaileDonor extends javax.swing.JFrame {
 //        ResultSet rs = st.executeQuery("select *from donor where donorId ='"+donorId+"'");
         ResultSet rs = st.executeQuery("select *from donor where name like '%"+donorName+"%'");
         if(rs.next()){
+        donorIDField.setText(rs.getString (1));
+        donorIDField1.setText(rs.getString (1));
         jTextField2.setText(rs.getString(2));
         jTextField3.setText(rs.getString(3));
         jTextField4.setText(rs.getString(4));
@@ -230,7 +250,7 @@ public class UpdateDetaileDonor extends javax.swing.JFrame {
         jTextField7.setText(rs.getString(7));
         jTextField8.setText(rs.getString(8));
          jTextField9.setText(rs.getString(9));
-         jTextArea1.setText(rs.getString(11));
+         jTextArea1.setText(rs.getString(10));
          jTextField1.setEditable(false);
         }
         else
@@ -244,7 +264,8 @@ public class UpdateDetaileDonor extends javax.swing.JFrame {
     }//GEN-LAST:event_searchButtonActionPerformed
 
     private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
-        String donorId = jTextField1.getText();
+
+        String donorId = donorIDField1.getText();
     String name = jTextField2.getText();
     String fatherName = jTextField3.getText();
     String motherName = jTextField4.getText();
@@ -254,7 +275,7 @@ public class UpdateDetaileDonor extends javax.swing.JFrame {
     String bloodGroup = jTextField8.getText();
     String city = jTextField9.getText();
     String address = jTextArea1.getText();
-    
+      
      if (!isValidName(name)) {
             JOptionPane.showMessageDialog(null, "Please enter a valid full name");
             return;
@@ -375,13 +396,17 @@ public class UpdateDetaileDonor extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel donorID;
+    private javax.swing.JLabel donorIDField;
+    private javax.swing.JTextField donorIDField1;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;

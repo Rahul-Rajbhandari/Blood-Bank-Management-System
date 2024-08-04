@@ -243,11 +243,11 @@ public class deleteDonor extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-            String donorId=jTextField1.getText();
+            String donorName=jTextField2.getText();
         try{
         Connection con = ConnectionProvider.getCon();
         Statement st =con.createStatement();
-         st.executeUpdate("delete from donor where donorId ='"+donorId+"'");
+         st.executeUpdate("delete from donor where name ='"+donorName+"'");
            JOptionPane.showMessageDialog(null," successfully deleted");
             setVisible(false);
             new deleteDonor().setVisible(true);
